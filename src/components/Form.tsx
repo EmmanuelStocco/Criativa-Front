@@ -69,7 +69,8 @@ const Form: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await api.post('/submit', formData);
+      console.log('formData', formData)
+      const response = await api.post('/funds', formData);
       console.log(response.data);
       alert('Dados enviados com sucesso!');
     } catch (error) {
