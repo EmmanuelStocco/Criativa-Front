@@ -8,7 +8,7 @@ function App() {
     <Container maxWidth="md">
       <header className="App-header">
         <Typography variant="h2" component="h1" gutterBottom>
-          Formulário com React e TypeScript
+          Visa - Criativa Integração
         </Typography>
         <Form />
       </header>
