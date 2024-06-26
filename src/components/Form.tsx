@@ -4,7 +4,6 @@ import api from '../services/api';
 
 const Form: React.FC = () => {
   const [formData, setFormData] = useState({
-    name: '',
     description: '',
     unit_amount_value: '',
     currency_code: ''
@@ -23,7 +22,7 @@ const Form: React.FC = () => {
         {
           items: [
             {
-              name: formData.name,
+              name: "Donation", // Nome fixado como "Donation"
               description: formData.description,
               quantity: "1", // Quantidade fixada como 1
               unit_amount: {
@@ -85,22 +84,16 @@ const Form: React.FC = () => {
         }}
       >
         <Typography variant="h4" component="h1" gutterBottom>
-          Formulário
+          Make Your Donation to Criativa!
+        </Typography>
+        <Typography variant="h6" component="p" gutterBottom>
+          Thank you for your support. Please write your message below:
         </Typography>
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
           <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
             <TextField
               fullWidth
-              label="Name"
-              variant="outlined"
-              margin="normal"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-            />
-            <TextField
-              fullWidth
-              label="Description"
+              label="Write your message"
               variant="outlined"
               margin="normal"
               name="description"
@@ -126,7 +119,7 @@ const Form: React.FC = () => {
               onChange={handleChange}
             />
             <Button type="submit" variant="contained" color="primary" fullWidth>
-              Enviar
+              Donate
             </Button>
           </div>
         </form>
