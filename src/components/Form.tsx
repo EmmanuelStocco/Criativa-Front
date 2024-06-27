@@ -44,7 +44,7 @@ const Form: React.FC = () => {
         }
       ],
       application_context: {
-        return_url: `${process.env.REACT_APP_FRONT_URL}/confirmation`, //"http://localhost:3001/confirmation",
+        return_url: `${process.env.REACT_APP_FRONT_URL}/confirmation`,//"http://localhost:3001/confirmation", // 
         cancel_url: "https://example.com/cancel"
       }
     };
