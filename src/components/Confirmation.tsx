@@ -6,19 +6,43 @@ const Confirmation: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Variável para armazenar o token da URL
+  let token = '';
+
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
-    const transactionId = searchParams.get('transactionId');
-    const amount = searchParams.get('amount');
-
-    if (!transactionId || !amount) {
-      alert('Error: Missing parameters!');
+    token = searchParams.get('token') || '';
+    console.log('token', token)
+    if (!token) {
+      alert('Error: Missing token!');
       navigate('/');
-    } else {
-      console.log('Transaction ID:', transactionId);
-      console.log('Amount:', amount);
     }
   }, [location, navigate]);
+
+  const handleCapturePayment = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/funds/paypal/capturePayment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          orderId: '8NT98921BE581530K' // Substitua pelo orderId correto, se aplicável
+        })
+      });
+
+      if (response.ok) {
+        alert('Payment confirmed successfully!');
+        navigate('/');
+      } else {
+        throw new Error('Failed to capture payment');
+      }
+    } catch (error) {
+      console.error(error);
+      alert('Error capturing payment!');
+      navigate('/');
+    }
+  };
 
   const handleBackToHome = () => {
     navigate('/');
@@ -44,7 +68,10 @@ const Confirmation: React.FC = () => {
         <Typography variant="h6" component="p" gutterBottom>
           Thank you for your generous donation. Your support helps us make a difference!
         </Typography>
-        <Button variant="contained" color="primary" onClick={handleBackToHome}>
+        <Button variant="contained" color="primary" onClick={handleCapturePayment}>
+          Confirm Payment
+        </Button>
+        <Button variant="contained" color="primary" onClick={handleBackToHome} style={{ marginTop: '1rem' }}>
           Back to Home
         </Button>
       </Box>

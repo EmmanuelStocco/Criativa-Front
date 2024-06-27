@@ -22,7 +22,7 @@ const Form: React.FC = () => {
         {
           items: [
             {
-              name: "Donation", // Nome fixado como "Donation"
+              name: "Donation",
               description: formData.description,
               quantity: "1", // Quantidade fixada como 1
               unit_amount: {
@@ -44,14 +44,17 @@ const Form: React.FC = () => {
         }
       ],
       application_context: {
-        return_url: "http://localhost:3001/",
+        return_url: "http://localhost:3001/confirmation",
         cancel_url: "https://example.com/cancel"
       }
     };
 
     try {
       const response = await api.post('/funds/paypal/createOrder', jsonToSend);
+      console.log('response', response)
+
       const { data } = response;
+      console.log('data',data)
       const linkOpen = data.links.find((e: any) => e.rel === "approve");
 
       if (linkOpen && linkOpen.href) {
