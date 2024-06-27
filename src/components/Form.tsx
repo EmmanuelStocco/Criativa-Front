@@ -44,7 +44,7 @@ const Form: React.FC = () => {
         }
       ],
       application_context: {
-        return_url: "http://localhost:3001/confirmation",
+        return_url: `${process.env.REACT_APP_FRONT_URL}/confirmation`, //"http://localhost:3001/confirmation",
         cancel_url: "https://example.com/cancel"
       }
     };
@@ -105,7 +105,7 @@ const Form: React.FC = () => {
             />
             <TextField
               fullWidth
-              label="Unit Amount (Value)"
+              label="Unit Amount (Value) - Example: 100.00"
               variant="outlined"
               margin="normal"
               name="unit_amount_value"
@@ -114,7 +114,7 @@ const Form: React.FC = () => {
             />
             <TextField
               fullWidth
-              label="Currency Code"
+              label="Currency Code - example: BRL, USD, EUR, etc."
               variant="outlined"
               margin="normal"
               name="currency_code"

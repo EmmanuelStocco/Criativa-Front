@@ -1,52 +1,48 @@
 import React, { useEffect } from 'react';
-import { Container, Typography, Box, Button } from '@mui/material';
+import { Container, Typography, Box } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const Confirmation: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Variável para armazenar o token da URL
-  let token = '';
-
   useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    token = searchParams.get('token') || '';
-    console.log('token', token)
-    if (!token) {
-      alert('Error: Missing token!');
-      navigate('/');
-    }
-  }, [location, navigate]);
+    const capturePayment = async () => {
+      const searchParams = new URLSearchParams(location.search);
+      const token = searchParams.get('token');
 
-  const handleCapturePayment = async () => {
-    try {
-      const response = await fetch('http://localhost:3000/funds/paypal/capturePayment', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          orderId: '8NT98921BE581530K' // Substitua pelo orderId correto, se aplicável
-        })
-      });
-
-      if (response.ok) {
-        alert('Payment confirmed successfully!');
+      if (!token) {
+        alert('Error: Missing token!');
         navigate('/');
-      } else {
-        throw new Error('Failed to capture payment');
+        return;
       }
-    } catch (error) {
-      console.error(error);
-      alert('Error capturing payment!');
-      navigate('/');
-    }
-  };
 
-  const handleBackToHome = () => {
-    navigate('/');
-  };
+      try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/funds/paypal/capturePayment`, { //'http://localhost:3000/funds/paypal/capturePayment', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            orderId: token
+          })
+        });
+
+        if (response.ok) {
+          alert('Payment confirmed successfully!');
+          navigate('/');
+        } else {
+          throw new Error('Failed to capture payment');
+        }
+      } catch (error) {
+        console.error(error);
+        alert('Error capturing payment!');
+        navigate('/');
+      }
+    };
+
+    capturePayment();
+  }, [location, navigate]);
 
   return (
     <Container maxWidth="md">
@@ -63,17 +59,11 @@ const Confirmation: React.FC = () => {
         }}
       >
         <Typography variant="h4" component="h1" gutterBottom>
-          Donation Confirmed!
+          Processing your donation...
         </Typography>
         <Typography variant="h6" component="p" gutterBottom>
-          Thank you for your generous donation. Your support helps us make a difference!
+          Please wait while we confirm your payment.
         </Typography>
-        <Button variant="contained" color="primary" onClick={handleCapturePayment}>
-          Confirm Payment
-        </Button>
-        <Button variant="contained" color="primary" onClick={handleBackToHome} style={{ marginTop: '1rem' }}>
-          Back to Home
-        </Button>
       </Box>
     </Container>
   );
