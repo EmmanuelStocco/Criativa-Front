@@ -21,7 +21,7 @@ const Confirmation: React.FC = () => {
 
   const handleCapturePayment = async () => {
     try {
-      const response = await fetch('http://localhost:3000/funds/paypal/capturePayment', {
+      const response = await fetch('https://back-criativa-doations-635d356bed7c.herokuapp.com/funds/paypal/capturePayment', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
