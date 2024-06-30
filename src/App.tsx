@@ -10,8 +10,10 @@ function App() {
     <Router>
       <Container maxWidth="md">
         <header className="App-header">
+        <img src={`/banner.jpg`} alt="Banner" style={{ maxWidth: '100%', width: '50%', height: 'auto', marginBottom: 20 }} />
+
           <Typography variant="h2" component="h1" gutterBottom>
-            Visa - Criativa Integração
+            Visa - Criativa integration
           </Typography>
           <Routes>
             <Route path="/" element={<Form />} />
