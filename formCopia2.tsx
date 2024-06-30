@@ -11,7 +11,8 @@ const Form: React.FC = () => {
   });
   const [exchangeRate, setExchangeRate] = useState('');
 
-   useEffect(() => {
+  // Fetch exchange rate when currency code changes
+  useEffect(() => {
     const fetchExchangeRate = async () => {
       try {
         const response = await fetch(`https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,BTC-BRL`);
@@ -31,7 +32,8 @@ const Form: React.FC = () => {
     fetchExchangeRate();
   }, [formData.currency_code]);
 
-   useEffect(() => {
+  // Calculate totalBrl when unit_amount_value or exchangeRate change
+  useEffect(() => {
     if (formData.unit_amount_value && exchangeRate) {
       const totalBrl = parseFloat(formData.unit_amount_value) * parseFloat(exchangeRate);
       setFormData(prevState => ({ ...prevState, totalBrl: totalBrl.toFixed(2) }));
@@ -55,18 +57,18 @@ const Form: React.FC = () => {
               description: formData.description,
               quantity: "1",
               unit_amount: {
-                currency_code: "BRL",
-                value: formData.totalBrl
+                currency_code: formData.currency_code,
+                value: formData.unit_amount_value
               }
             }
           ],
           amount: {
-            currency_code: "BRL",
-            value: formData.totalBrl,
+            currency_code: formData.currency_code,
+            value: formData.unit_amount_value,
             breakdown: {
               item_total: {
-                currency_code: "BRL",
-                value: formData.totalBrl
+                currency_code: formData.currency_code,
+                value: formData.unit_amount_value
               }
             }
           }
